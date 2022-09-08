@@ -1,0 +1,370 @@
+\documentclass[
+	% -- opções da classe memoir --
+	12pt,				% tamanho da fonte
+	openright,			% capítulos começam em pág ímpar (página vazia se preciso)
+% 	twoside,			% para impressão em recto e verso.
+    oneside,
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	chapter=TITLE,
+ 	section=TITLE,
+% 	subsection=Title,
+% 	subsubsection=Title,
+	% -- opções do pacote babel --
+	english,			% idioma adicional para hifenização
+% 	french,				% idioma adicional para hifenização
+% 	spanish,			% idioma adicional para hifenização
+	brazil				% o último idioma é o principal do documento
+	]{abntex2}
+
+% ---
+% Pacotes básicos 
+% ---
+%\usepackage{lmodern}		% Usa a fonte Latin Modern			
+\usepackage{helvet}		% Usa a fonte Arial
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage[T1]{fontenc}	% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}	% Codificacao do documento 
+\usepackage{indentfirst}	% Indenta o primeiro parágrafo de cada seção.
+\usepackage{color}			% Controle das cores
+\usepackage{graphicx}		% Inclusão de gráficos
+\usepackage{microtype} 		% para melhorias de justificação
+\usepackage{setspace}       % para espacamento simples no resumo
+\usepackage{pdfpages}
+% ---
+
+% ---
+% Pacotes adicionais, usados apenas no exemplo
+% ---
+\usepackage{lipsum} % para geração de dummy text
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage[brazil]{babel} 
+% ---
+
+% ---
+% Pacotes de citações
+% ---
+%\usepackage[brazilian,hyperpageref]{backref} % Mostra a página onde cada citação foi feita
+%\usepackage[num,abnt-etal-list=0,bibjustif]{abntex2cite} % Citações numéricas (ordem de apresentação)
+\usepackage[alf,abnt-etal-list=3,bibjustif,abnt-repeated-author-omit=yes,abnt-repeated-author-omit=yes,abnt-url-package=hyperref,abnt-emphasize=bf]{./abntex2cite} % Citações autor-data (ordem alfabética)
+
+% --- 
+% CONFIGURAÇÕES DE PACOTES
+% --- 
+
+% % ---
+% % Configurações do pacote backref, SE FOR USAR DESCOMENTE TODO ESSE TRECHO
+% % Usado sem a opção hyperpageref de backref
+% \renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+% % Texto padrão antes do número das páginas
+% \renewcommand{\backref}{}
+% % Define os textos da citação
+% \renewcommand*{\backrefalt}[4]{
+% 	\ifcase #1 %
+% 		Nenhuma citação no texto.%
+% 	\or
+% 		Citado na página #2.%
+% 	\else
+% 		Citado #1 vezes nas páginas #2.%
+% 	\fi}%
+% % ---
+
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+\usepackage{abntex2esao}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{200B}{{\hskip 0pt}}
+% ---
+
+%------------
+%Outro Idioma
+%------------
+\usepackage{ifthen}
+\RequirePackage{ifthen}
+\newif\ifen
+\newif\ifpt
+\newif\ifes
+\newif\iffr
+\newif\ifita
+\newcommand{\en}[1]{\ifen#1\fi}
+\newcommand{\pt}[1]{\ifpt#1\fi}
+\newcommand{\es}[1]{\ifes#1\fi}
+\newcommand{\fr}[1]{\iffr#1\fi}
+\newcommand{\ita}[1]{\ifita#1\fi}
+\newcommand{\jan}{%
+    \en{January}%
+    \pt{Janeiro}%
+    \es{Enero}%
+    \fr{Janvier}%
+    \ita{Gennaio}%
+}
+\pttrue
+
+%\usepackage{caption}
+%\usepackage{subcaption}
+
+\input{dados}
+% ---
+% Configurações de aparência do PDF final
+
+% % alterando o aspecto da cor azul
+% \definecolor{blue}{RGB}{41,5,195}
+
+% % informações do PDF
+\makeatletter
+\hypersetup{
+    %pagebackref=true,
+    % pdftitle={\@title}, 
+    % pdfauthor={\@author},
+    % pdfsubject={\imprimirpreambulo},
+    % pdfcreator={LaTeX with abnTeX2},
+    colorlinks=true, % false: boxed links; true: colored links
+    linkcolor=black, % color of internal links
+    citecolor=black,	% color of links to bibliography
+    filecolor=black, % color of file links
+    urlcolor=black,
+    bookmarksdepth=4
+}
+\makeatother
+% % --- 
+% % --- 
+
+
+
+% ---
+% Posiciona figuras e tabelas no topo da página quando adicionadas sozinhas
+% em um página em branco. Ver https://github.com/abntex/abntex2/issues/170
+\makeatletter
+\setlength{\@fptop}{5pt} % Set distance from top of page to first float
+\makeatother
+% ---
+
+% ---
+% Possibilita criação de Quadros e Lista de quadros.
+% Ver https://github.com/abntex/abntex2/issues/176
+%
+\newcommand{\quadroname}{Quadro}
+\newcommand{\listofquadrosname}{Lista de quadros}
+
+\newfloat[chapter]{quadro}{loq}{\quadroname}
+\newlistof{listofquadros}{loq}{\listofquadrosname}
+\newlistentry{quadro}{loq}{0}
+
+% configurações para atender às regras da ABNT
+\setfloatadjustment{quadro}{\centering}
+\counterwithout{quadro}{chapter}
+\renewcommand{\cftquadroname}{\quadroname\space} 
+\renewcommand*{\cftquadroaftersnum}{\hfill--\hfill}
+
+\setfloatlocations{quadro}{hbtp} % Ver https://github.com/abntex/abntex2/issues/176
+% ---
+
+% --- 
+% Espaçamentos entre linhas e parágrafos 
+% --- 
+
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{1.3cm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{0.2cm}  % tente também \onelineskip
+
+% ---
+% compila o indice
+% ---
+\makeindex
+% ---
+%
+%    \usepackage{fancyhdr}
+%    \pagestyle{fancy}
+%    \renewcommand{\headrulewidth}{0pt}
+%    \fancyhf{}
+%    \cfoot{\noindent\fcolorbox{red}{white}{\parbox{\dimexpr \linewidth-2\fboxsep-2\fboxrule}{%
+%                \centering{\color{red}{\textbf{INFORMAÇÃO DE P\&D - ACESSO RESTRITO}\\
+%                        §1º do Art. 7º da Lei nº 12.527, de 18 de novembro de 2011\\
+%                        Inciso II do Art. 6º do Decreto nº 7.724, de 16 de maio de 2012}}}}}
+%
+
+% Marca dagua com o reservado
+%\usepackage{draftwatermark} 
+%\SetWatermarkColor[rgb]{1,0,0}
+%\SetWatermarkAngle{0}
+%\SetWatermarkText{\textsc{RESERVADO}}
+%\SetWatermarkScale{0.12}
+%\SetWatermarkVerCenter{10mm}
+%\SetWatermarkHorCenter{150mm}
+
+% acronyms
+\usepackage{acro} 
+%\acsetup{
+%    list/display=used ,
+%    list/heading=none
+%}
+\input{simbolo-abrev}
+
+% ----
+% Início do documento
+% ----
+\begin{document}
+    
+% Seleciona o idioma do documento (conforme pacotes do babel)
+%\selectlanguage{english}
+\selectlanguage{brazil}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
+
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+% \pretextual
+
+% ---
+% Capa
+% ---
+\imprimircapa
+% ---
+
+% ---
+% Folha de rosto
+% (o * indica que haverá a ficha bibliográfica)
+% ---
+\imprimirfolhaderosto*
+% ---
+
+% ---
+% Inserir a ficha bibliografica
+% ---
+
+% \begin{fichacatalografica}
+%     \includepdf{fig_ficha_catalografica.pdf}
+% \end{fichacatalografica}
+
+\imprimirfichacatalografica
+% ---
+
+% ---
+% Inserir folha de aprovação
+% ---
+
+% \begin{folhadeaprovacao}
+% \includepdf{folhadeaprovacao_final.pdf}
+% \end{folhadeaprovacao}
+%
+\imprimirfolhadeaprovacao
+% ---
+
+\input{pre-texto}
+
+% ---
+% inserir lista de ilustrações
+% ---
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+% ---
+
+% ---
+% inserir lista de quadros
+% ---
+%\pdfbookmark[0]{\listofquadrosname}{loq}
+%\listofquadros*
+%\cleardoublepage
+% ---
+
+% ---
+% inserir lista de tabelas
+% ---
+%\pdfbookmark[0]{\listtablename}{lot}
+%\listoftables*
+%\cleardoublepage
+% ---
+
+% ---
+% inserir lista de abreviaturas e siglas
+% ---
+\begin{siglas}
+    \item
+    \printacronyms[heading=none]
+%    \printacronyms[display=used,heading=none]
+\end{siglas}
+% ---
+
+% ---
+% inserir lista de símbolos
+% ---
+%\begin{simbolos}
+%  \item[$ \Gamma $] Letra grega Gama
+%  \item[$ \Lambda $] Lambda
+%\end{simbolos}
+% ---
+
+% ---
+% inserir o sumario
+% ---
+
+\makeatletter
+\let\oldcontentsline\contentsline
+\def\contentsline#1#2{%
+    \oldcontentsline{#1}{\MakeTextUppercase{#2}}%
+}
+\makeatother
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+% ---
+
+% ----------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ----------------------------------------------------------
+\textual
+
+\input{01-introducao}
+\input{02-revisao_da_literatura}
+\input{03-metodologia}
+\input{04-resultados}
+\input{05-discussao_dos_resultados}
+\input{06-conclusao}
+
+% ----------------------------------------------------------
+% ELEMENTOS PÓS-TEXTUAIS
+% ----------------------------------------------------------
+\postextual
+% ----------------------------------------------------------
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+\bibliography{refs.bib}
+
+% ----------------------------------------------------------
+% Apêndices
+% ----------------------------------------------------------
+%\begin{apendicesenv}
+%    \partapendices
+%    \input{exemplo-apendice}
+%\end{apendicesenv}
+% ---
+
+% ----------------------------------------------------------
+% Anexos
+% ----------------------------------------------------------
+%\begin{anexosenv}
+%    \partanexos
+%    \input{exemplo-anexo}
+%\end{anexosenv}
+
+%---------------------------------------------------------------------
+% INDICE REMISSIVO
+%---------------------------------------------------------------------
+\phantompart
+\printindex
+%---------------------------------------------------------------------
+
+\end{document}
